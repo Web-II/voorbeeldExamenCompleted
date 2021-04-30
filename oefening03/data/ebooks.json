@@ -1,0 +1,19 @@
+{
+    "boekenNF": [
+        {
+            "boeknaam": "De bevrijding van Vlaanderen",
+            "auteur": "Arnout Hauben, Johanna Spaey",
+            "taal": "Nederlands"
+        },
+        {
+            "boeknaam": "Sapiens",
+            "auteur": "Yuval Noah Harari",
+            "taal": "Nederlands"
+        },
+        {
+            "boeknaam": "De Bourgondiërs ",
+            "auteur": "Bart Van Loo",
+            "taal": "Nederlands"
+        }
+    ]
+}
