@@ -1,32 +1,36 @@
 /**
- * Vraag 6
- * a) Creëer op basis van de array getallen een nieuwe array getallen2, waarbij
- *    je elk element van de array verhoogt met één.
- * b) Tel alle cijfers die zich op een even index bevinden in 
- *    de array getallen (oorspronkelijke array) samen.
- *    Voor deze opdracht moet je verplicht gebruikmaken van de array-methode reduce().
- */
+ * ===== Vraag 6 =====
+ * Bekijk onderstaande code en vul ze aan zodat een geschikt bericht
+ * in een alert wordt getoond wanneer myPromise settled.
+ *
+ * In het geval dat myPromise resolved moet de lengte van de
+ * array (i.e. de resolve value) getoond worden,
+ * In het geval dat de promise reject moet
+ * de error (i.e. de reject value) getoond worden.
+ **/
 
-const getallen = [1, 4, 2, 5, 1, 5, 4];
+const retrieveData = (resolve, reject) => {
+  const random = Math.random();
+  if (random < 0.25) resolve([1, 2, 3, 4, 5, 6, 7, 8]);
+  else if (random < 0.5) resolve([10, 20, 30, 40, 50]);
+  else if (random < 0.75) resolve([100, 200, 300]);
+  else reject(new Error('No data'));
+};
 
-/* Oplossing */
-// prettier-ignore
-const getallen2 = getallen.map(x => x + 1);
-const resultaatReduce = getallen.reduce((res, x, i) => {
-    if ((i % 2) === 0) {
-        return res + x;
-    } else {
-        return res;
-    }
-}, 0);
+const myPromise = new Promise((resolve, reject) => {
+  setTimeout(() => {
+    retrieveData(resolve, reject);
+  }, 2000);
+});
 
-console.log(getallen2); // [2, 5, 3, 6, 2, 6, 5];
-console.log(resultaatReduce); //8
+/* Modeloplossing */
+myPromise
+  .then((data) => alert(`Received ${data.length} items`))
+  .catch((error) => alert(error));
 
-/* Oplossing alt */
-const resultaatReduceAlt = getallen.reduce(
-    (res, x, i) => ((i % 2) === 0 ? res + x : res));
-
-
-console.log(resultaatReduceAlt); //8
-
+// 2 seconden na het laden van het script, verschijnt 1 van de volgende
+// berichtjes in een alert
+// "Received 8 items", of
+// "Received 5 items", of
+// "Received 3 items", of
+// "Error: No data"

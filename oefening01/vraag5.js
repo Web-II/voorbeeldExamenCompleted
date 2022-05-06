@@ -1,63 +1,69 @@
 /**
- * Vraag 5
- * Definieer een klasse Rectangle.
- * Vereisten voor deze klasse:
- * - de constructor moet twee parameters hebben nl. width en height.
- * - indien er geen height opgegeven wordt bij de creatie van een Rectangle
- *   dan stel je deze in op de speciale waarde null.
- * - je bewaart de hoogte en de breedte in private properties. Maak hierbij gebruik
- *   van de conventie i.v.m. private properties uit de lessen (namen
- *   van private properties laten we beginnen met een 'underscore'.)
- * - van een bestaand Rectangle-object moet je de height en width kunnen instellen en opvragen.
- * - de omtrek van een Rectangle-object moet opgevraagd kunnen worden via een getter perimeter
- * - indien een Rectangle-object omgezet wordt naar een string moet een zin afgebeeld
- *   worden zoals vermeld is bij de onderstaande console.log-statements. 
- *   De afgebeelde tekst moet exact gelijk zijn aan deze in de 
- *   console.log-statements.
+ * ===== Vraag 5 =====
+ * Shrijf een klasse EStep die volgende private properties heeft:
+ * - _topSpeed: een getal die de maximale snelheid in km/u voorstelt
+ * - _tireType: een string die de bandensoort voorstelt
  *
- * Maak:
- * - een object rechthoek1 met breedte=10 en hoogte=20.
- * - een object rechthoek2 met breedte=15 en waarbij de hoogte niet ingesteld is.
- */
+ * Voorzie voor elke property een getter en voor de property _tireType een setter. Volgende
+ * domeinregel moet gerespecteerd worden. Indien niet aan deze domeinregel is voldaan word een
+ * Error met een gepaste boodschap geworpen.
+ *  - tireType kan enkel de waarden 'pneumatic', 'solid' of 'honeycomb' aannemen,
+ *    dit is case-insensitive, de lowercase versie van de string wordt bijgehouden
+ *
+ * Schrijf een constructor die via zijn parameters waarden aangeleverd krijgt
+ * voor de properties van een scooter. Indien geen waarde wordt aangeleverd
+ * voor het tireType dan wordt deze property ingesteld op 'pneumatic'.
+ *
+ * Schrijf een methode toString(). Bekijk de voorbeelduitvoer om te zien wat deze
+ * methode exact moet retourneren.
+ *
+ * Schrijf een getter canGetFlat. De getter levert true op indien het
+ * bandentype 'pneumatic' is, in andere gevallen levert deze getter false op.
+ *
+ * Schrijf een methode pimp(extraSpeed). Deze methode verhoogt de topSpeed van de
+ * EStep met extraSpeed indien extraSpeed niet meer dan 10% van de huidige topSpeed is.
+ * Indien de extraSpeed meer is dan 10% van de huidige topSpeed wordt een Error geworpen.
+ **/
 
-/* Oplossing */
-class Rectangle {
-    constructor(width, height = null) {
-        this._width = width;
-        this._height = height;
-    }
-
-    get width() {
-        return this._width;
-    }
-
-    set width(value) {
-        this._width = value;
-    }
-
-    get height() {
-        return this._height;
-    }
-
-    set height(value) {
-        this._width = value;
-    }
-
-    get perimeter() {
-        return (this._height + this._width) * 2;
-    }
-
-    toString() {
-        return `Rechthoek met breedte=${this._width} en hoogte=${this._height === null ? 'unknown' : this._height}`;
-    }
+/* Modeloplossing */
+class EStep {
+  #topSpeed;
+  #tireType;
+  constructor(topSpeed, tireType = "pneumatic") {
+    this.#topSpeed = topSpeed;
+    this.tireType = tireType;
+  }
+  get topSpeed() {
+    return this.#topSpeed;
+  }
+  get tireType() {
+    return this.#tireType;
+  }
+  set tireType(value) {
+    if (!["pneumatic", "solid", "honeycomb"].includes(value.toLowerCase()))
+      throw new Error("Invalid type of tire");
+    this.#tireType = value.toLowerCase();
+  }
+  get canGetFlat() {
+    return this.tireType === "pneumatic";
+  }
+  toString() {
+    return `Top speed of ${this.topSpeed} km/h and ${this.tireType} tires`;
+  }
+  pimp(extraSpeed) {
+    if ((extraSpeed * 100) / this.#topSpeed > 10)
+      throw new Error("You can't pimp your e-Step like that");
+    this.#topSpeed += extraSpeed;
+  }
 }
 
-const rechthoek1 = new Rectangle(10, 20);
-const rechthoek2 = new Rectangle(10);
-
-console.log(rechthoek1.height); // 20
-console.log(rechthoek1.perimeter); // 60
-console.log('String - ' + rechthoek1); // String - Rechthoek met breedte=10 en hoogte=20
-rechthoek2.width = 15;
-console.log('String - ' + rechthoek2); // String - Rechthoek met breedte=15 en hoogte=unknown
-
+/* Voorbeeld uitvoer */
+const myFirstStep = new EStep(20, "Solid");
+console.log(myFirstStep.toString()); // Top speed of 20 km/h and solid tires
+const myOtherStep = new EStep(30);
+console.log(myOtherStep.toString()); // Top speed of 30 km/h and pneumatic tires
+console.log(myFirstStep.canGetFlat); // false
+myOtherStep.pimp(2);
+console.log(myOtherStep.toString()); // Top speed of 32 km/h and pneumatic tires
+// myOtherStep.pimp(10); // Uncaught Error: You can't pimp your e-Step like that
+// const myThirdStep = new EStep(25, 'tubeless'); // Uncaught Error: Invalid type of tire

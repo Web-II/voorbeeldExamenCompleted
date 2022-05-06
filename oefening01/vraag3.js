@@ -1,27 +1,61 @@
+'use strict';
 /**
- * Vraag 3
- * a) Voeg aan het object bob de hobby 'Gaming' toe. 
- *    Uiteraard zonder de oorspronkelijke declaratie te wijzigen.
- * b) Gebruik destructuring assignment om met één statement
- *    twee variabelen hobby1 en hobby2 te creëren met de eerste twee hobbies.
- *    Zie ook console.log-statement.
- */
+ * ===== Vraag 3 =====
+ * Details 3.1 tem 3.4: zie hieronder in opgave
+ **/
 
-let bob = {
-    name: 'Bob',
-    age: 60,
-    hobbies: ['Cycling', 'Fishing'],
+const actor1 = {
+  name: 'Halle Berry',
+  movies: ['Kings', 'Cloud Atlas', 'Kidnap', 'Movie 43']
 };
 
-/* Oplossing a) */
-bob.hobbies.push('Gaming');
-console.log(bob);
+const actor2 = {
+  name: 'Shah Rukh Khan',
+  movies: ['Tutak Tutak Tutiya', 'Jab Tak Hai Jaan']
+};
 
-/* Oplossing b) */
-const [hobby1, hobby2] = bob.hobbies;
-console.log(hobby1, hobby2); //Cycling Fishing
+const actor3 = {
+  name: "Lupita Nyong'o",
+  movies: ['Black Panther', 'The Jungle book', 'Black is King']
+};
 
-/* Oplossing b) alt*/
-const { hobbies: [hobby1alt, hobby2alt] } = bob;
-console.log(hobby1alt, hobby2alt); //Cycling Fishing
+const extraMovies = ['The 355', 'Us', 'Queen of Katwe'];
 
+function printMovies(actor) {
+  console.log(`${actor.name} starred in: ${actor.movies.join(', ')}`);
+}
+
+// 3.1 Wijzig de movies van actor1 zodat enkel nog movies die niet starten met de letter 'K' overblijven
+// Schrijf hiervoor 1 statement
+/* 3.1 Modeloplossing */
+actor1.movies = actor1.movies.filter((o) => !o.startsWith('K'));
+
+// 3.2 Voeg vooraan aan de movies van actor2 de movie "Chamatkar" toe
+// Schrijf hiervoor 1 statement
+/* 3.2 Modeloplossing */
+actor2.movies.unshift('Chamatkar');
+
+// 3.3 Verwijder de tweede movie uit de movies van actor3 en
+// vervang deze door de movies die je vindt in de variabele extraMovies.
+// Schrijf hiervoor 1 statement
+/* 3.3 Modeloplossing */
+actor3.movies.splice(1, 1, ...extraMovies);
+
+// 3.4 Schrijf een functie applyCallbackToObjects.
+// De functie moet je kunnen aanroepen met (zie ook voorbeeld uitvoer)
+//   - als eerste argument een callback function
+//   - als volgende argumenten een willekeurig aantal actor objecten
+// In de functie applyCallbackToObjects wordt voor elk actor-object de callback
+// aangeroepen, bij deze aanroep wordt het actor-object als argument doorgegeven
+/* 3.4 Modeloplossing */
+function applyCallbackToActors(callback, ...actors) {
+  actors.forEach((actor) => callback(actor));
+}
+
+/* Voorbeeld uitvoer */
+applyCallbackToActors(printMovies, actor1, actor2, actor3);
+// Halle Berry starred in: Cloud Atlas, Movie 43
+// Shah Rukh Khan starred in: Chamatkar, Tutak Tutak Tutiya, Jab Tak Hai Jaan
+// Lupita Nyong'o starred in: Black Panther, The 355, Us, Queen of Katwe, Black is King
+applyCallbackToActors(printMovies, actor2);
+// Shah Rukh Khan starred in: Chamatkar, Tutak Tutak Tutiya, Jab Tak Hai Jaan

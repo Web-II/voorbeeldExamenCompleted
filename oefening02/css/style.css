@@ -1,14 +1,30 @@
 body {
     padding: 20px;
-    font-family: Georgia, 'Times New Roman', Times, serif;
+    font-family: consolas, monospace;
 }
-img {
+main{
+    display: flex;
+    justify-content: space-evenly;
+}
+p, .recipe{
+    padding-top: 5px;
+    padding-left: 10px;
+    width: 100%;
+}
+img.recipe {    
+    width: 200px;
+    margin-right: 5px;
+}
+img.star{
     padding: 5px;
 }
-p#message1 {
-    padding: 10px;
-    border: 1px solid #000;
-    font-size: 1.5rem;
-    font-family: consolas, monospace;
-    margin: 5px;
+article.recipe{
+    margin: 1rem;
+    padding: 5px;
+    border: lightskyblue 2px solid;
+    border-radius: 5px;
+    box-shadow: gray 5px 5px 5px;
+}
+.checked {
+    color: orange;
 }
